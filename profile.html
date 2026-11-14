@@ -1,341 +1,144 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Grational</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grational profile</title>
+
   <style>
-    :root{ --bg:#edf4ff; --line:#dfe8f5; --ink:#172a43; --muted:#5f7086; --blue:#2d63db; --deep:#173d89; }
+    :root { --line: #dfe8f5; --ink: #172a43; --muted: #5f7086; --deep: #173d89; }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body{ margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:linear-gradient(120deg,#e0e7ee 0%,#ebf3ff 35%,#f5f9ff 100%); }
-    a { text-decoration:none; color:inherit; }
-    button, input, textarea { font:inherit; }
-    .wrap { max-width:1200px; margin:auto; padding:0 22px; }
-    header{ display:flex; align-items:center; gap:18px; min-height:76px; border-bottom:1px solid var(--line); }
-    .brand{ margin-right:auto; font-weight:900; font-size:1.42rem; letter-spacing:1px; color:var(--deep); }
-    nav{ display:flex; gap:18px; flex-wrap:wrap; color:#536780; font-weight:700; }
-    nav a:hover { color:var(--blue); }
-    .btn{ display:inline-flex; align-items:center; justify-content:center; border:0; border-radius:12px; padding:12px 18px; cursor:pointer; font-weight:800; }
-    .btn.primary{ background:linear-gradient(135deg,#3f7bf0,#214cc2); color:#fff; }
-    .btn.secondary{ background:#fff; color:var(--deep); border:1px solid var(--line); }
-    .btn.dark{ background:#18243a; color:#fff; }
-    .full{ width:100%; }
-    .hero{ display:grid; grid-template-columns:1.4fr .8fr; gap:24px; align-items:center; padding:52px 0 38px; }
-    .eyebrow{ display:inline-block; background:rgba(61,124,244,.11); color:var(--deep); font-weight:800; letter-spacing:.13em; font-size:.74rem; border-radius:999px; padding:8px 12px; }
-    h1{ margin:14px 0 12px; font-size:clamp(2.6rem,5vw,4.8rem); line-height:1.02; letter-spacing:-.06em; color:#112d60; }
-    .lead{ color:var(--muted); line-height:1.7; max-width:620px; margin:0 0 20px; }
-    .steps, .card, .video-card, .empty{ border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.76); box-shadow:0 16px 34px rgba(21,55,141,.08); }
-    .steps{ padding:22px; }
-    .steps h2{ margin:0 0 12px; }
-    .steps p{ padding:10px 0; margin:0; color:#536780; border-bottom:1px solid #ebf0f8; }
-    .steps p:last-child{ border:0; }
-    .steps b{ color:var(--blue); margin-right:10px; }
-    .section{ padding:18px 0 24px; }
-    .heading{ display:flex; align-items:end; justify-content:space-between; margin-bottom:16px; gap:12px; }
-    .heading h2{ margin:0; font-size:2rem; color:#112d60; }
-    .grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-    .card{ padding:22px; }
-    .card h2{ margin:0 0 18px; }
-    .tabs{ display:flex; gap:5px; background:#edf3fb; padding:4px; border-radius:12px; margin-bottom:14px; }
-    .tabs button{ flex:1; border:0; border-radius:9px; padding:10px; background:transparent; color:#5b6d84; font-weight:800; cursor:pointer; }
-    .tabs button.selected{ background:#fff; color:var(--deep); }
-    form{ display:grid; gap:13px; }
-    label{ display:grid; gap:7px; color:#334d70; font-size:.9rem; font-weight:700; }
-    input, textarea{ width:100%; padding:12px; border-radius:10px; border:1px solid rgba(94,116,159,.22); background:#fbfdff; color:var(--ink); }
-    textarea{ min-height:90px; resize:vertical; }
-    .small{ color:var(--muted); font-size:.86rem; }
-    .file-box{ padding:12px 14px; border:1px dashed #7da2db; border-radius:12px; background:#f4f8ff; }
-    .preview{ width:100%; max-height:320px; background:#0d1832; border-radius:12px; margin-top:12px; object-fit:contain; display:none; }
-    .message{ display:none; margin:16px 0 0; padding:12px 14px; border-radius:10px; font-weight:700; }
-    .message.show{ display:block; }
-    .message.success{ background:#eafaf0; color:#1d6f3c; }
-    .message.error{ background:#fde7e7; color:#b42318; }
-    .profile-link{ display:inline-flex; align-items:center; justify-content:center; padding:10px 12px; background:#edf3ff; border:1px solid var(--line); border-radius:10px; font-weight:700; color:#27496d; }
-    .search-box{ width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; margin-bottom:18px; }
-    .video-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-    .video-card{ overflow:hidden; }
-    .video-card video{ display:block; width:100%; aspect-ratio:16/9; background:#0d1832; }
-    .video-info{ padding:14px 15px 16px; }
-    .video-info h3{ margin:0 0 6px; }
-    .empty{ padding:22px; color:var(--muted); background:rgba(255,255,255,.68); }
-    footer{ border-top:1px solid var(--line); text-align:center; color:var(--muted); padding:24px 0 34px; margin-top:20px; }
-    @media (max-width:760px){ .hero, .grid { grid-template-columns:1fr; } .hero{ padding-top:42px; } .video-grid{ grid-template-columns:repeat(2,minmax(200px,1fr)); } }
-    @media (max-width:560px){ .wrap{ padding:0 15px; } header{ flex-wrap:wrap; padding:12px 0; gap:14px; } nav{ order:3; width:100%; justify-content:space-between; } .video-grid{ grid-template-columns:1fr; } }
+    body { margin: 0; padding: 32px 16px; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: linear-gradient(120deg, #e0e7ee, #ebf3ff 45%, #f5f9ff); }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    .card { padding: 24px; border: 1px solid var(--line); border-radius: 22px; background: rgba(255, 255, 255, .9); box-shadow: 0 16px 34px rgba(21, 55, 141, .08); }
+    .top { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .avatar { display: grid; width: 76px; height: 76px; place-items: center; border-radius: 50%; color: #fff; background: linear-gradient(135deg, #3f7bf0, #214cc2); font-size: 1.7rem; font-weight: 900; }
+    h1 { margin: 0; font-size: 2rem; }
+    .username { margin: 4px 0 0; color: var(--muted); }
+    .bio { margin: 22px 0; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #f7faff; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .socials { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 20px; }
+    .pill { display: inline-block; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: #edf3ff; color: #27496d; font-weight: 700; }
+    .videos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 18px; }
+    .video-card { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+    .video-card video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #0d1832; }
+    .video-title { margin: 0; padding: 14px; }
+    .status { color: var(--muted); }
+    .home { display: inline-block; margin-bottom: 16px; color: var(--deep); }
+    @media (max-width: 700px) { .videos { grid-template-columns: 1fr; } .card { padding: 18px; } }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">Grational</div>
-      <nav>
-        <a href="#videos">Videos</a>
-        <a href="#upload">Upload</a>
-        <a href="#account">Account</a>
-        <a href="./rule.html">Rules</a>
-      </nav>
-      <button id="signOut" class="btn secondary" hidden>Sign out</button>
-    </header>
-    <section class="hero">
-      <div>
-        <span class="eyebrow">BUILT-IN VIDEO HOSTING</span>
-        <h1>Your videos.<br>Hosted on Grational.</h1>
-        <p class="lead">Make your video, upload it through Grational, wait a minute, and then share it with everyone.</p>
-        <a href="#upload" class="btn primary">Start Upload</a>
-      </div>
-      <aside class="steps">
-        <h2>How to upload</h2>
-        <p><b>01</b> Make your video</p>
-        <p><b>02</b> Upload it through Grational</p>
-        <p><b>03</b> Wait a minute</p>
-        <p><b>04</b> Your video is published</p>
-      </aside>
-    </section>
-    <div id="message" class="message" role="status"></div>
-    <section class="section grid">
-      <div class="card" id="account">
-        <h2>Login or register</h2>
-        <div id="authArea">
-          <div class="tabs">
-            <button id="registerTab" class="selected" type="button">Register</button>
-            <button id="loginTab" type="button">Login</button>
-          </div>
-          <form id="authForm">
-            <div id="registerFields">
-              <label>Display name<input id="displayName" autocomplete="name" /></label>
-              <label>Username<input id="username" autocomplete="username" /></label>
-              <label>Bio<textarea id="bio" placeholder="Tell people about yourself"></textarea></label>
-            </div>
-            <label>Email<input id="email" type="email" autocomplete="email" required /></label>
-            <label>Password<input id="password" type="password" minlength="6" maxlength="44" autocomplete="new-password" required /></label>
-            <div class="small">Password must be 6–44 characters.</div>
-            <button id="authSubmit" class="btn primary full" type="submit">Create account</button>
-          </form>
-          <div style="text-align:center;color:var(--muted);margin:10px 0;">or</div>
-          <button id="githubSignIn" class="btn dark full" type="button">Continue with GitHub</button>
-        </div>
-        <div id="signedIn" hidden>
-          <p class="small" id="signedInText"></p>
-          <a id="profileLink" class="profile-link" href="#" target="_blank">Open my public profile</a>
-        </div>
-      </div>
-      <div class="card" id="upload">
-        <h2>Upload a video</h2>
-        <p id="uploadHint" class="small">Sign in or register before uploading.</p>
-        <form id="uploadForm">
-          <label>Video title<input id="videoTitle" placeholder="My video" disabled /></label>
-          <label class="file-box">Choose video<input id="videoFile" type="file" accept="video/*" disabled /></label>
-          <div class="small">Demo limit: 100 MB per video.</div>
-          <video id="preview" class="preview" controls playsinline></video>
-          <button id="uploadButton" class="btn primary full" type="submit" disabled>Upload and publish</button>
-        </form>
-      </div>
-    </section>
-    <section id="videos" class="section">
-      <div class="heading">
+  <main class="wrap">
+    <a class="home" href="./index.html">← Grational home</a>
+    <section class="card">
+      <div class="top">
+        <div class="avatar" id="avatar">?</div>
         <div>
-          <span class="eyebrow">COMMUNITY</span>
-          <h2>Latest videos</h2>
+          <h1 id="displayName">Loading profile…</h1>
+          <p class="username">@<span id="username"></span></p>
         </div>
       </div>
-      <input id="searchInput" class="search-box" type="text" placeholder="Search videos or creators..." />
-      <div id="videoList" class="video-grid"></div>
+      <div class="bio" id="bio">Loading…</div>
+      <div class="socials" id="socials"></div>
+      <h2>Videos</h2>
+      <p class="status" id="status" role="status"></p>
+      <div id="videos" class="videos"></div>
     </section>
-    <footer>Grational · Share your videos with the world</footer>
-  </div>
+  </main>
+
   <script src="https://jsdelivr.net"></script>
   <script>
     const SUPABASE_URL = "https://supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_lj-29lcW4hegyBMWTyNlFw_t7kRN1JH";
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    let authMode = "register";
-    let session = null;
-    let previewObjectUrl = "";
-    let currentUsername = "";
     const $ = (id) => document.getElementById(id);
 
-    function showMessage(text, type = "success") {
-      const el = $("message");
-      el.textContent = text;
-      el.className = "message show " + type;
+    function showNotFound() {
+      $("displayName").textContent = "Profile not found";
+      $("username").textContent = "";
+      $("avatar").textContent = "?";
+      $("bio").textContent = "This profile does not exist.";
+      $("socials").replaceChildren();
+      $("status").textContent = "";
     }
 
-    function setMode(mode) {
-      authMode = mode;
-      $("registerTab").classList.toggle("selected", mode === "register");
-      $("loginTab").classList.toggle("selected", mode === "login");
-      $("registerFields").hidden = mode !== "register";
-      $("authSubmit").textContent = mode === "register" ? "Create account" : "Login";
-      $("password").autocomplete = mode === "register" ? "new-password" : "current-password";
-    }
-
-    function buildProfileUrl(username) {
-      return new URL("profile.html", window.location.href).href + "?u=" + encodeURIComponent(username);
-    }
-
-    function getFallbackUsername(user) {
-      return user.user_metadata?.username || user.user_metadata?.user_name || user.user_metadata?.preferred_username || (user.email ? user.email.split("@")[0] : "user_" + user.id.slice(0, 6));
-    }
-
-    async function ensureProfile() {
-      if (!session) return;
-      const { data: existing } = await supabase.from("profiles").select("username").eq("id", session.user.id).maybeSingle();
-      if (existing && existing.username) { currentUsername = existing.username; return; }
-      const username = ($("username").value || "").trim() || getFallbackUsername(session.user);
-      const displayName = ($("displayName").value || "").trim() || session.user.user_metadata?.full_name || session.user.user_metadata?.name || username;
-      const bio = ($("bio").value || "").trim() || session.user.user_metadata?.bio || "";
-      const { error } = await supabase.from("profiles").upsert({ id: session.user.id, username, display_name: displayName, bio, updated_at: new Date().toISOString() }, { onConflict: "id" });
-      if (error) console.error(error);
-      else currentUsername = username;
-    }
-
-    async function loadVideos() {
-      const list = $("videoList");
-      list.innerHTML = "";
-      const { data, error } = await supabase.from("videos").select("id,title,storage_path,uploader_name,created_at,owner_id").order("created_at", { ascending: false }).limit(30);
-      if (error) { showMessage(error.message, "error"); return; }
-      if (!data || data.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.textContent = "No videos yet. Be the first to upload one.";
-        list.appendChild(empty);
-        return;
+    function renderSocialLinks(profile) {
+      const links = [
+        { key: "discord_url", label: "Discord" },
+        { key: "github_url", label: "GitHub" },
+        { key: "x_url", label: "X" },
+        { key: "tiktok_url", label: "TikTok" },
+        { key: "youtube_url", label: "YouTube" }
+      ];
+      const container = $("socials");
+      container.replaceChildren();
+      for (const item of links) {
+        const value = profile[item.key];
+        if (!value) continue;
+        try {
+          const url = new URL(value);
+          if (url.protocol !== "https:" && url.protocol !== "http:") continue;
+          const link = document.createElement("a");
+          link.className = "pill";
+          link.href = url.href;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = item.label;
+          container.appendChild(link);
+        } catch {}
       }
-      const searchText = ($("searchInput").value || "").trim().toLowerCase();
-      const filtered = data.filter((v) => !searchText || (v.title || "").toLowerCase().includes(searchText) || (v.uploader_name || "").toLowerCase().includes(searchText));
-      if (!filtered.length) {
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.textContent = "No matching videos found.";
-        list.appendChild(empty);
-        return;
+      if (container.children.length === 0) {
+        const message = document.createElement("span");
+        message.className = "pill";
+        message.textContent = "No social links added";
+        container.appendChild(message);
       }
-      filtered.forEach((video) => {
+    }
+
+    async function loadProfile() {
+      const requestedUsername = new URLSearchParams(location.search).get("u");
+      if (!requestedUsername) { showNotFound(); return; }
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("id, username, display_name, bio, discord_url, github_url, x_url, tiktok_url, youtube_url")
+        .eq("username", requestedUsername)
+        .maybeSingle();
+      if (profileError || !profile) { showNotFound(); return; }
+      const name = profile.display_name || profile.username;
+      $("displayName").textContent = name;
+      $("username").textContent = profile.username;
+      $("avatar").textContent = name.charAt(0).toUpperCase() || "?";
+      $("bio").textContent = profile.bio || "No bio yet.";
+      renderSocialLinks(profile);
+
+      const { data: videos, error: videosError } = await supabase
+        .from("videos")
+        .select("id, title, storage_path, created_at")
+        .eq("owner_id", profile.id)
+        .order("created_at", { ascending: false });
+      const list = $("videos");
+      list.replaceChildren();
+      if (videosError) { $("status").textContent = "Could not load videos."; return; }
+      if (!videos || videos.length === 0) { $("status").textContent = "This user has not uploaded any videos yet."; return; }
+      $("status").textContent = "";
+      for (const video of videos) {
         const { data: publicData } = supabase.storage.from("videos").getPublicUrl(video.storage_path);
         const card = document.createElement("article");
         card.className = "video-card";
-        const elVideo = document.createElement("video");
-        elVideo.src = publicData.publicUrl;
-        elVideo.controls = true;
-        elVideo.playsInline = true;
-        elVideo.preload = "metadata";
-        const info = document.createElement("div");
-        info.className = "video-info";
-        const h3 = document.createElement("h3");
-        h3.textContent = video.title;
-        const uploader = document.createElement("small");
-        uploader.textContent = "Uploaded by " + (video.uploader_name || "Grational user");
-        info.append(h3, uploader);
-        card.append(elVideo, info);
+        const player = document.createElement("video");
+        player.src = publicData.publicUrl;
+        player.controls = true;
+        player.playsInline = true;
+        player.preload = "metadata";
+        const title = document.createElement("h3");
+        title.className = "video-title";
+        title.textContent = video.title || "Untitled video";
+        card.append(player, title);
         list.appendChild(card);
-      });
-    }
-
-    function updateAuthUI() {
-      const signedIn = !!session;
-      $("authArea").hidden = signedIn;
-      $("signedIn").hidden = !signedIn;
-      $("signOut").hidden = !signedIn;
-      $("videoTitle").disabled = !signedIn;
-      $("videoFile").disabled = !signedIn;
-      $("uploadButton").disabled = !signedIn;
-      $("uploadHint").textContent = signedIn ? "Choose a video and upload it." : "Sign in or register before uploading.";
-      if (signedIn) {
-        const username = currentUsername || getFallbackUsername(session.user);
-        $("signedInText").textContent = "Signed in as " + username;
-        $("profileLink").href = buildProfileUrl(username);
       }
     }
 
-    $("registerTab").addEventListener("click", () => setMode("register"));
-    $("loginTab").addEventListener("click", () => setMode("login"));
-    $("searchInput").addEventListener("input", loadVideos);
-
-    $("authForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = $("email").value.trim();
-      const password = $("password").value;
-      try {
-        if (authMode === "register") {
-          if (password.length < 6 || password.length > 44) throw new Error("Password must be 6–44 characters.");
-          const cleanedUsername = $("username").value.trim();
-          if (!cleanedUsername) throw new Error("Username is required.");
-          const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { display_name: $("displayName").value.trim(), username: cleanedUsername, bio: $("bio").value.trim() } } });
-          if (error) throw error;
-          if (data.session) { session = data.session; currentUsername = cleanedUsername; await ensureProfile(); updateAuthUI(); showMessage("Account created and signed in.", "success"); }
-          else showMessage("Account created. Check your email to confirm it.", "success");
-        } else {
-          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-          if (error) throw error;
-          session = data.session;
-          await ensureProfile();
-          updateAuthUI();
-          showMessage("Signed in successfully.", "success");
-        }
-      } catch (err) { showMessage(err.message || "Authentication failed.", "error"); }
-    });
-
-    $("githubSignIn").addEventListener("click", async () => {
-      const { error } = await supabase.auth.signInWithOAuth({ provider: "github", options: { redirectTo: window.location.origin + window.location.pathname } });
-      if (error) showMessage(error.message, "error");
-    });
-
-    $("signOut").addEventListener("click", async () => {
-      const { error } = await supabase.auth.signOut();
-      if (error) { showMessage(error.message, "error"); return; }
-      session = null; currentUsername = ""; updateAuthUI(); showMessage("Signed out.", "success");
-    });
-
-    $("videoFile").addEventListener("change", () => {
-      const file = $("videoFile").files[0];
-      if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
-      $("preview").style.display = "none"; $("preview").removeAttribute("src"); previewObjectUrl = "";
-      if (!file) return;
-      if (!file.type.startsWith("video/")) { showMessage("Choose a valid video file.", "error"); return; }
-      if (file.size > 100 * 1024 * 1024) { showMessage("This demo allows up to 100 MB per video.", "error"); return; }
-      previewObjectUrl = URL.createObjectURL(file); $("preview").src = previewObjectUrl; $("preview").style.display = "block";
-      if (!$("videoTitle").value) $("videoTitle").value = file.name.replace(/\.[^/.]+$/, "");
-    });
-
-    $("uploadForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!session) { showMessage("Please sign in before uploading.", "error"); return; }
-      const file = $("videoFile").files[0];
-      if (!file) { showMessage("Choose a video file first.", "error"); return; }
-      try {
-        const user = session.user;
-        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
-        const path = `${user.id}/${crypto.randomUUID()}-${safeName}`;
-        const { error: storageError } = await supabase.storage.from("videos").upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type });
-        if (storageError) throw storageError;
-        const uploaderName = currentUsername || getFallbackUsername(session.user);
-        const { error: dbError } = await supabase.from("videos").insert({ owner_id: user.id, title: $("videoTitle").value.trim() || file.name, storage_path: path, uploader_name: uploaderName });
-        if (dbError) throw dbError;
-        showMessage("Video uploaded and published.", "success");
-        $("uploadForm").reset(); $("preview").style.display = "none";
-        if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl); previewObjectUrl = "";
-        await loadVideos();
-      } catch (err) { showMessage(err.message || "Upload failed.", "error"); }
-    });
-
-    async function init() {
-      const { data } = await supabase.auth.getSession();
-      session = data.session || null;
-      if (session) await ensureProfile();
-      updateAuthUI();
-      await loadVideos();
-      supabase.auth.onAuthStateChange(async (_event, newSession) => {
-        session = newSession;
-        if (session) await ensureProfile();
-        else currentUsername = "";
-        updateAuthUI();
-      });
-    }
-
-    setMode("register");
-    init();
+    loadProfile().catch((error) => { console.error(error); showNotFound(); });
   </script>
 </body>
 </html>
-
