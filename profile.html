@@ -143,3 +143,199 @@
     </section>
     <footer>Grational · Share your videos with the world</footer>
   </div>
+  <script src="https://jsdelivr.net"></script>
+  <script>
+    const SUPABASE_URL = "https://supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_lj-29lcW4hegyBMWTyNlFw_t7kRN1JH";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let authMode = "register";
+    let session = null;
+    let previewObjectUrl = "";
+    let currentUsername = "";
+    const $ = (id) => document.getElementById(id);
+
+    function showMessage(text, type = "success") {
+      const el = $("message");
+      el.textContent = text;
+      el.className = "message show " + type;
+    }
+
+    function setMode(mode) {
+      authMode = mode;
+      $("registerTab").classList.toggle("selected", mode === "register");
+      $("loginTab").classList.toggle("selected", mode === "login");
+      $("registerFields").hidden = mode !== "register";
+      $("authSubmit").textContent = mode === "register" ? "Create account" : "Login";
+      $("password").autocomplete = mode === "register" ? "new-password" : "current-password";
+    }
+
+    function buildProfileUrl(username) {
+      return new URL("profile.html", window.location.href).href + "?u=" + encodeURIComponent(username);
+    }
+
+    function getFallbackUsername(user) {
+      return user.user_metadata?.username || user.user_metadata?.user_name || user.user_metadata?.preferred_username || (user.email ? user.email.split("@")[0] : "user_" + user.id.slice(0, 6));
+    }
+
+    async function ensureProfile() {
+      if (!session) return;
+      const { data: existing } = await supabase.from("profiles").select("username").eq("id", session.user.id).maybeSingle();
+      if (existing && existing.username) { currentUsername = existing.username; return; }
+      const username = ($("username").value || "").trim() || getFallbackUsername(session.user);
+      const displayName = ($("displayName").value || "").trim() || session.user.user_metadata?.full_name || session.user.user_metadata?.name || username;
+      const bio = ($("bio").value || "").trim() || session.user.user_metadata?.bio || "";
+      const { error } = await supabase.from("profiles").upsert({ id: session.user.id, username, display_name: displayName, bio, updated_at: new Date().toISOString() }, { onConflict: "id" });
+      if (error) console.error(error);
+      else currentUsername = username;
+    }
+
+    async function loadVideos() {
+      const list = $("videoList");
+      list.innerHTML = "";
+      const { data, error } = await supabase.from("videos").select("id,title,storage_path,uploader_name,created_at,owner_id").order("created_at", { ascending: false }).limit(30);
+      if (error) { showMessage(error.message, "error"); return; }
+      if (!data || data.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "No videos yet. Be the first to upload one.";
+        list.appendChild(empty);
+        return;
+      }
+      const searchText = ($("searchInput").value || "").trim().toLowerCase();
+      const filtered = data.filter((v) => !searchText || (v.title || "").toLowerCase().includes(searchText) || (v.uploader_name || "").toLowerCase().includes(searchText));
+      if (!filtered.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "No matching videos found.";
+        list.appendChild(empty);
+        return;
+      }
+      filtered.forEach((video) => {
+        const { data: publicData } = supabase.storage.from("videos").getPublicUrl(video.storage_path);
+        const card = document.createElement("article");
+        card.className = "video-card";
+        const elVideo = document.createElement("video");
+        elVideo.src = publicData.publicUrl;
+        elVideo.controls = true;
+        elVideo.playsInline = true;
+        elVideo.preload = "metadata";
+        const info = document.createElement("div");
+        info.className = "video-info";
+        const h3 = document.createElement("h3");
+        h3.textContent = video.title;
+        const uploader = document.createElement("small");
+        uploader.textContent = "Uploaded by " + (video.uploader_name || "Grational user");
+        info.append(h3, uploader);
+        card.append(elVideo, info);
+        list.appendChild(card);
+      });
+    }
+
+    function updateAuthUI() {
+      const signedIn = !!session;
+      $("authArea").hidden = signedIn;
+      $("signedIn").hidden = !signedIn;
+      $("signOut").hidden = !signedIn;
+      $("videoTitle").disabled = !signedIn;
+      $("videoFile").disabled = !signedIn;
+      $("uploadButton").disabled = !signedIn;
+      $("uploadHint").textContent = signedIn ? "Choose a video and upload it." : "Sign in or register before uploading.";
+      if (signedIn) {
+        const username = currentUsername || getFallbackUsername(session.user);
+        $("signedInText").textContent = "Signed in as " + username;
+        $("profileLink").href = buildProfileUrl(username);
+      }
+    }
+
+    $("registerTab").addEventListener("click", () => setMode("register"));
+    $("loginTab").addEventListener("click", () => setMode("login"));
+    $("searchInput").addEventListener("input", loadVideos);
+
+    $("authForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = $("email").value.trim();
+      const password = $("password").value;
+      try {
+        if (authMode === "register") {
+          if (password.length < 6 || password.length > 44) throw new Error("Password must be 6–44 characters.");
+          const cleanedUsername = $("username").value.trim();
+          if (!cleanedUsername) throw new Error("Username is required.");
+          const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { display_name: $("displayName").value.trim(), username: cleanedUsername, bio: $("bio").value.trim() } } });
+          if (error) throw error;
+          if (data.session) { session = data.session; currentUsername = cleanedUsername; await ensureProfile(); updateAuthUI(); showMessage("Account created and signed in.", "success"); }
+          else showMessage("Account created. Check your email to confirm it.", "success");
+        } else {
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          session = data.session;
+          await ensureProfile();
+          updateAuthUI();
+          showMessage("Signed in successfully.", "success");
+        }
+      } catch (err) { showMessage(err.message || "Authentication failed.", "error"); }
+    });
+
+    $("githubSignIn").addEventListener("click", async () => {
+      const { error } = await supabase.auth.signInWithOAuth({ provider: "github", options: { redirectTo: window.location.origin + window.location.pathname } });
+      if (error) showMessage(error.message, "error");
+    });
+
+    $("signOut").addEventListener("click", async () => {
+      const { error } = await supabase.auth.signOut();
+      if (error) { showMessage(error.message, "error"); return; }
+      session = null; currentUsername = ""; updateAuthUI(); showMessage("Signed out.", "success");
+    });
+
+    $("videoFile").addEventListener("change", () => {
+      const file = $("videoFile").files[0];
+      if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
+      $("preview").style.display = "none"; $("preview").removeAttribute("src"); previewObjectUrl = "";
+      if (!file) return;
+      if (!file.type.startsWith("video/")) { showMessage("Choose a valid video file.", "error"); return; }
+      if (file.size > 100 * 1024 * 1024) { showMessage("This demo allows up to 100 MB per video.", "error"); return; }
+      previewObjectUrl = URL.createObjectURL(file); $("preview").src = previewObjectUrl; $("preview").style.display = "block";
+      if (!$("videoTitle").value) $("videoTitle").value = file.name.replace(/\.[^/.]+$/, "");
+    });
+
+    $("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!session) { showMessage("Please sign in before uploading.", "error"); return; }
+      const file = $("videoFile").files[0];
+      if (!file) { showMessage("Choose a video file first.", "error"); return; }
+      try {
+        const user = session.user;
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+        const path = `${user.id}/${crypto.randomUUID()}-${safeName}`;
+        const { error: storageError } = await supabase.storage.from("videos").upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type });
+        if (storageError) throw storageError;
+        const uploaderName = currentUsername || getFallbackUsername(session.user);
+        const { error: dbError } = await supabase.from("videos").insert({ owner_id: user.id, title: $("videoTitle").value.trim() || file.name, storage_path: path, uploader_name: uploaderName });
+        if (dbError) throw dbError;
+        showMessage("Video uploaded and published.", "success");
+        $("uploadForm").reset(); $("preview").style.display = "none";
+        if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl); previewObjectUrl = "";
+        await loadVideos();
+      } catch (err) { showMessage(err.message || "Upload failed.", "error"); }
+    });
+
+    async function init() {
+      const { data } = await supabase.auth.getSession();
+      session = data.session || null;
+      if (session) await ensureProfile();
+      updateAuthUI();
+      await loadVideos();
+      supabase.auth.onAuthStateChange(async (_event, newSession) => {
+        session = newSession;
+        if (session) await ensureProfile();
+        else currentUsername = "";
+        updateAuthUI();
+      });
+    }
+
+    setMode("register");
+    init();
+  </script>
+</body>
+</html>
+
