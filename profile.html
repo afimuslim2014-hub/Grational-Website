@@ -1,69 +1,114 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Grational profile</title>
+
   <style>
-    :root{
-      --line:#dfe8f5;
-      --ink:#172a43;
-      --muted:#5f7086;
-      --deep:#173d89;
+    :root {
+      --line: #dfe8f5;
+      --ink: #172a43;
+      --muted: #5f7086;
+      --deep: #173d89;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
-      color:var(--ink);
-      background:linear-gradient(120deg,#e0e7ee,#ebf3ff 45%,#f5f9ff);
-      padding:32px 16px;
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 32px 16px;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(120deg, #e0e7ee, #ebf3ff 45%, #f5f9ff);
     }
-    .wrap{max-width:1100px;margin:0 auto}
-    .card{
-      border:1px solid var(--line);
-      border-radius:22px;
-      background:rgba(255,255,255,.9);
-      box-shadow:0 16px 34px rgba(21,55,141,.08);
-      padding:24px;
+
+    .wrap { max-width: 1100px; margin: 0 auto; }
+
+    .card {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .9);
+      box-shadow: 0 16px 34px rgba(21, 55, 141, .08);
     }
-    .top{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-    .avatar{
-      width:76px;height:76px;border-radius:50%;
-      display:grid;place-items:center;
-      background:linear-gradient(135deg,#3f7bf0,#214cc2);
-      color:#fff;font-weight:900;font-size:1.7rem;
+
+    .top { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+
+    .avatar {
+      display: grid;
+      width: 76px;
+      height: 76px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(135deg, #3f7bf0, #214cc2);
+      font-size: 1.7rem;
+      font-weight: 900;
     }
-    h1{margin:0;font-size:2rem}
-    .username{margin:4px 0 0;color:var(--muted)}
-    .bio{
-      margin:22px 0;padding:16px;border:1px solid var(--line);border-radius:14px;background:#f7faff;
-      white-space:pre-wrap;overflow-wrap:anywhere;
+
+    h1 { margin: 0; font-size: 2rem; }
+    .username { margin: 4px 0 0; color: var(--muted); }
+
+    .bio {
+      margin: 22px 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #f7faff;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
-    .socials{
-      display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 20px
+
+    .socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0 20px;
     }
-    .pill{
-      display:inline-block;padding:8px 10px;border-radius:10px;background:#edf3ff;border:1px solid var(--line);font-weight:700;color:#27496d
+
+    .pill {
+      display: inline-block;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #edf3ff;
+      color: #27496d;
+      font-weight: 700;
     }
-    .videos{
-      display:grid;grid-template-columns:repeat(2,minmax(260px,1fr));gap:18px;margin-top:18px;
+
+    .videos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
     }
-    .video-card{
-      overflow:hidden;border:1px solid var(--line);border-radius:16px;background:#fff
+
+    .video-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
     }
-    .video-card video{
-      display:block;width:100%;aspect-ratio:16/9;background:#0d1832;
+
+    .video-card video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #0d1832;
     }
-    .video-title{margin:0;padding:14px}
-    .status{color:var(--muted)}
-    .home{display:inline-block;margin-bottom:16px;color:var(--deep)}
-    @media (max-width:700px){
-      .videos{grid-template-columns:1fr}
-      .card{padding:18px}
+
+    .video-title { margin: 0; padding: 14px; }
+    .status { color: var(--muted); }
+    .home { display: inline-block; margin-bottom: 16px; color: var(--deep); }
+
+    @media (max-width: 700px) {
+      .videos { grid-template-columns: 1fr; }
+      .card { padding: 18px; }
     }
   </style>
 </head>
+
 <body>
   <main class="wrap">
     <a class="home" href="./index.html">← Grational home</a>
@@ -78,7 +123,6 @@
       </div>
 
       <div class="bio" id="bio">Loading…</div>
-
       <div class="socials" id="socials"></div>
 
       <h2>Videos</h2>
@@ -89,18 +133,26 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
-    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const SUPABASE_URL = "https://kphwmhefvjzcnzdmnlwy.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_lj-29lcW4hegyBMWTyNlFw_t7kRN1JH";
 
-    function getRequestedUsername() {
-      return new URLSearchParams(window.location.search).get("u") || "";
+    const supabase = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
+    const $ = (id) => document.getElementById(id);
+
+    function showNotFound() {
+      $("displayName").textContent = "Profile not found";
+      $("username").textContent = "";
+      $("avatar").textContent = "?";
+      $("bio").textContent = "This profile does not exist.";
+      $("socials").replaceChildren();
+      $("status").textContent = "";
     }
 
     function renderSocialLinks(profile) {
-      const socials = document.getElementById("socials");
-      socials.innerHTML = "";
-
       const links = [
         { key: "discord_url", label: "Discord" },
         { key: "github_url", label: "GitHub" },
@@ -109,31 +161,42 @@
         { key: "youtube_url", label: "YouTube" }
       ];
 
-      links.forEach((item) => {
+      const container = $("socials");
+      container.replaceChildren();
+
+      for (const item of links) {
         const value = profile[item.key];
-        if (!value) return;
+        if (!value) continue;
 
-        const a = document.createElement("a");
-        a.className = "pill";
-        a.href = value;
-        a.target = "_blank";
-        a.rel = "noreferrer";
-        a.textContent = item.label;
-        socials.appendChild(a);
-      });
+        try {
+          const url = new URL(value);
+          if (url.protocol !== "https:" && url.protocol !== "http:") continue;
 
-      if (!socials.children.length) {
-        socials.innerHTML = "<span class='pill'>No social links added</span>";
+          const link = document.createElement("a");
+          link.className = "pill";
+          link.href = url.href;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = item.label;
+          container.appendChild(link);
+        } catch {
+          // Skip invalid links.
+        }
+      }
+
+      if (container.children.length === 0) {
+        const message = document.createElement("span");
+        message.className = "pill";
+        message.textContent = "No social links added";
+        container.appendChild(message);
       }
     }
 
     async function loadProfile() {
-      const requestedUsername = getRequestedUsername();
+      const requestedUsername = new URLSearchParams(location.search).get("u");
+
       if (!requestedUsername) {
-        document.getElementById("displayName").textContent = "Profile not found";
-        document.getElementById("username").textContent = "unknown";
-        document.getElementById("bio").textContent = "This profile does not exist.";
-        document.getElementById("status").textContent = "";
+        showNotFound();
         return;
       }
 
@@ -144,44 +207,43 @@
         .maybeSingle();
 
       if (profileError || !profile) {
-        document.getElementById("displayName").textContent = "Profile not found";
-        document.getElementById("username").textContent = "unknown";
-        document.getElementById("bio").textContent = "This profile does not exist.";
-        document.getElementById("status").textContent = "";
+        showNotFound();
         return;
       }
 
-      const displayName = profile.display_name || profile.username;
-      document.getElementById("displayName").textContent = displayName;
-      document.getElementById("username").textContent = profile.username;
-      document.getElementById("avatar").textContent = (displayName || "?").charAt(0).toUpperCase();
-      document.getElementById("bio").textContent = profile.bio || "No bio yet.";
+      const name = profile.display_name || profile.username;
+      $("displayName").textContent = name;
+      $("username").textContent = profile.username;
+      $("avatar").textContent = name.charAt(0).toUpperCase() || "?";
+      $("bio").textContent = profile.bio || "No bio yet.";
 
       renderSocialLinks(profile);
 
       const { data: videos, error: videosError } = await supabase
         .from("videos")
-        .select("id,title,storage_path,created_at")
+        .select("id, title, storage_path, created_at")
         .eq("owner_id", profile.id)
         .order("created_at", { ascending: false });
 
-      const list = document.getElementById("videos");
-      list.innerHTML = "";
+      const list = $("videos");
+      list.replaceChildren();
 
       if (videosError) {
-        document.getElementById("status").textContent = "Could not load videos.";
+        $("status").textContent = "Could not load videos.";
         return;
       }
 
       if (!videos || videos.length === 0) {
-        document.getElementById("status").textContent = "This user has not uploaded any videos yet.";
+        $("status").textContent = "This user has not uploaded any videos yet.";
         return;
       }
 
-      document.getElementById("status").textContent = "";
+      $("status").textContent = "";
 
-      videos.forEach((video) => {
-        const { data: publicData } = supabase.storage.from("videos").getPublicUrl(video.storage_path);
+      for (const video of videos) {
+        const { data: publicData } = supabase.storage
+          .from("videos")
+          .getPublicUrl(video.storage_path);
 
         const card = document.createElement("article");
         card.className = "video-card";
@@ -194,19 +256,16 @@
 
         const title = document.createElement("h3");
         title.className = "video-title";
-        title.textContent = video.title;
+        title.textContent = video.title || "Untitled video";
 
-        card.appendChild(player);
-        card.appendChild(title);
+        card.append(player, title);
         list.appendChild(card);
-      });
+      }
     }
 
-    loadProfile().catch((err) => {
-      console.error(err);
-      document.getElementById("displayName").textContent = "Profile not found";
-      document.getElementById("username").textContent = "unknown";
-      document.getElementById("bio").textContent = "This profile is unavailable.";
+    loadProfile().catch((error) => {
+      console.error(error);
+      showNotFound();
     });
   </script>
 </body>
