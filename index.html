@@ -2,332 +2,114 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Grational</title>
   <style>
     :root{
-      --bg:#edf4ff;
-      --line:#dfe8f5;
-      --ink:#172a43;
-      --muted:#5f7086;
-      --blue:#2d63db;
-      --deep:#173d89;
+      --bg:#edf4ff; --bg2:#dfeafc; --panel:#ffffffdc; --line:#dfe8f5; --ink:#172a43; --muted:#5f7086; --blue:#2d63db; --deep:#173d89;
     }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+      font-family:system-ui,-apple-system,Segoe UI,sans-serif;
       color:var(--ink);
       background:linear-gradient(120deg,#e0e7ee 0%,#ebf3ff 35%,#f5f9ff 100%);
     }
-
-    a { text-decoration:none; color:inherit; }
-    button, input, textarea { font:inherit; }
-    .wrap { max-width:1200px; margin:auto; padding:0 22px; }
-
+    a{text-decoration:none;color:inherit}
+    button,input,textarea{font:inherit}
+    .wrap{max-width:1200px;margin:auto;padding:0 22px}
     header{
-      display:flex;
-      align-items:center;
-      gap:18px;
-      min-height:76px;
+      display:flex; align-items:center; gap:22px; min-height:76px;
       border-bottom:1px solid var(--line);
     }
-
-    .brand{
-      margin-right:auto;
-      font-weight:900;
-      font-size:1.42rem;
-      letter-spacing:1px;
-      color:var(--deep);
-    }
-
-    nav{<a href="./rule.html">Rules</a>
-      display:flex;
-      gap:18px;
-      flex-wrap:wrap;
-      color:#536780;
-      font-weight:700;
-    }
-
-    nav a:hover { color:var(--blue); }
-
+    .brand{margin-right:auto;font-weight:900;font-size:1.42rem;letter-spacing:1px;color:var(--deep)}
+    nav{display:flex;gap:18px;flex-wrap:wrap;color:#536780;font-weight:700}
+    nav a:hover{color:var(--blue)}
     .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border:0;
-      border-radius:12px;
-      padding:12px 18px;
-      cursor:pointer;
-      font-weight:800;
+      display:inline-flex; align-items:center; justify-content:center; border:0;
+      border-radius:12px; padding:12px 18px; cursor:pointer; font-weight:800;
     }
-
-    .btn.primary{ background:linear-gradient(135deg,#3f7bf0,#214cc2); color:#fff; }
-    .btn.secondary{ background:#fff; color:var(--deep); border:1px solid var(--line); }
-    .btn.dark{ background:#18243a; color:#fff; }
-    .full{ width:100%; }
+    .btn.primary{background:linear-gradient(135deg,#3f7bf0,#214cc2);color:#fff}
+    .btn.secondary{background:#fff;color:var(--deep);border:1px solid var(--line)}
+    .btn.dark{background:#18243a;color:#fff}
+    .full{width:100%}
 
     .hero{
-      display:grid;
-      grid-template-columns:1.4fr .8fr;
-      gap:24px;
-      align-items:center;
-      padding:52px 0 38px;
+      display:grid;grid-template-columns:1.4fr .8fr;gap:24px;align-items:center;padding:52px 0 38px;
     }
-
     .eyebrow{
-      display:inline-block;
-      background:rgba(61,124,244,.11);
-      color:var(--deep);
-      font-weight:800;
-      letter-spacing:.13em;
-      font-size:.74rem;
-      border-radius:999px;
-      padding:8px 12px;
+      display:inline-block;background:rgba(61,124,244,.11);color:var(--deep);font-weight:800;
+      letter-spacing:.13em;font-size:.74rem;border-radius:999px;padding:8px 12px
     }
-
     h1{
-      margin:14px 0 12px;
-      font-size:clamp(2.6rem,5vw,4.8rem);
-      line-height:1.02;
-      letter-spacing:-.06em;
-      color:#112d60;
+      margin:14px 0 12px;font-size:clamp(2.6rem,5vw,4.8rem);line-height:1.02;letter-spacing:-.06em;color:#112d60
     }
-
-    .lead{
-      color:var(--muted);
-      line-height:1.7;
-      max-width:620px;
-      margin:0 0 20px;
+    .lead{color:var(--muted);line-height:1.7;max-width:620px;margin:0 0 20px}
+    .steps,.card,.video-card,.empty{
+      border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.76);box-shadow:0 16px 34px rgba(21,55,141,.08)
     }
+    .steps{padding:22px}
+    .steps h2{margin:0 0 12px}
+    .steps p{padding:10px 0;margin:0;color:#536780;border-bottom:1px solid #ebf0f8}
+    .steps p:last-child{border:0}
+    .steps b{color:var(--blue);margin-right:10px}
 
-    .steps, .card, .video-card, .feature-card, .empty{
-      border:1px solid var(--line);
-      border-radius:22px;
-      background:rgba(255,255,255,.76);
-      box-shadow:0 16px 34px rgba(21,55,141,.08);
-    }
+    .section{padding:18px 0 24px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .card{padding:22px}
+    .card h2{margin:0 0 18px}
 
-    .steps{ padding:22px; }
-    .steps h2{ margin:0 0 12px; }
-    .steps p{
-      padding:10px 0;
-      margin:0;
-      color:#536780;
-      border-bottom:1px solid #ebf0f8;
-    }
-    .steps p:last-child{ border:0; }
-    .steps b{ color:var(--blue); margin-right:10px; }
-
-    .section{ padding:18px 0 24px; }
-    .heading{
-      display:flex;
-      align-items:end;
-      justify-content:space-between;
-      margin-bottom:16px;
-      gap:12px;
-    }
-    .heading h2{
-      margin:0;
-      font-size:2rem;
-      color:#112d60;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:20px;
-    }
-
-    .card{ padding:22px; }
-    .card h2{ margin:0 0 18px; }
-
-    .tabs{
-      display:flex;
-      gap:5px;
-      background:#edf3fb;
-      padding:4px;
-      border-radius:12px;
-      margin-bottom:14px;
-    }
-
+    .tabs{display:flex;gap:5px;background:#edf3fb;padding:4px;border-radius:12px;margin-bottom:14px}
     .tabs button{
-      flex:1;
-      border:0;
-      border-radius:9px;
-      padding:10px;
-      background:transparent;
-      color:#5b6d84;
-      font-weight:800;
-      cursor:pointer;
+      flex:1;border:0;border-radius:9px;padding:10px;background:transparent;color:#5b6d84;font-weight:800;cursor:pointer
     }
-
-    .tabs button.selected{
-      background:#fff;
-      color:var(--deep);
+    .tabs button.selected{background:#fff;color:var(--deep)}
+    form{display:grid;gap:13px}
+    label{display:grid;gap:7px;color:#334d70;font-size:.9rem;font-weight:700}
+    input,textarea{
+      width:100%;padding:12px;border-radius:10px;border:1px solid rgba(94,116,159,.22);
+      background:#fbfdff;color:var(--ink)
     }
-
-    form{ display:grid; gap:13px; }
-
-    label{
-      display:grid;
-      gap:7px;
-      color:#334d70;
-      font-size:.9rem;
-      font-weight:700;
-    }
-
-    input, textarea{
-      width:100%;
-      padding:12px;
-      border-radius:10px;
-      border:1px solid rgba(94,116,159,.22);
-      background:#fbfdff;
-      color:var(--ink);
-    }
-
-    textarea{
-      min-height:90px;
-      resize:vertical;
-    }
-
-    .small{ color:var(--muted); font-size:.86rem; }
-
-    .file-box{
-      padding:12px 14px;
-      border:1px dashed #7da2db;
-      border-radius:12px;
-      background:#f4f8ff;
-    }
-
-    .preview{
-      width:100%;
-      max-height:320px;
-      background:#0d1832;
-      border-radius:12px;
-      margin-top:12px;
-      object-fit:contain;
-      display:none;
-    }
-
-    .message{
-      display:none;
-      margin:16px 0 0;
-      padding:12px 14px;
-      border-radius:10px;
-      font-weight:700;
-    }
-
-    .message.show{ display:block; }
-    .message.success{ background:#eafaf0; color:#1d6f3c; }
-    .message.error{ background:#fde7e7; color:#b42318; }
+    textarea{min-height:90px;resize:vertical}
+    .small{color:var(--muted);font-size:.86rem}
+    .file-box{padding:12px 14px;border:1px dashed #7da2db;border-radius:12px;background:#f4f8ff}
+    .preview{width:100%;max-height:320px;background:#0d1832;border-radius:12px;margin-top:12px;object-fit:contain;display:none}
+    .message{display:none;margin:16px 0 0;padding:12px 14px;border-radius:10px;font-weight:700}
+    .message.show{display:block}
+    .message.success{background:#eafaf0;color:#1d6f3c}
+    .message.error{background:#fde7e7;color:#b42318}
 
     .profile-link{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px 12px;
-      background:#edf3ff;
-      border:1px solid var(--line);
-      border-radius:10px;
-      font-weight:700;
-      color:#27496d;
+      display:inline-flex; align-items:center; justify-content:center; padding:10px 12px;
+      background:#edf3ff; border:1px solid var(--line); border-radius:10px; font-weight:700; color:#27496d;
     }
 
-    .search-box{
-      width:100%;
-      padding:12px 14px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      background:#fff;
-      margin-bottom:18px;
-    }
+    .video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .video-card{overflow:hidden}
+    .video-card video{display:block;width:100%;aspect-ratio:16/9;background:#0d1832}
+    .video-info{padding:14px 15px 16px}
+    .video-info h3{margin:0 0 6px}
+    .empty{padding:22px;color:var(--muted);background:rgba(255,255,255,.68)}
 
-    .video-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:16px;
-    }
-
-    .video-card{ overflow:hidden; }
-    .video-card video{
-      display:block;
-      width:100%;
-      aspect-ratio:16/9;
-      background:#0d1832;
-    }
-
-    .video-info{
-      padding:14px 15px 16px;
-    }
-
-    .video-info h3{
-      margin:0 0 6px;
-    }
-
-    .feature-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:16px;
-    }
-
-    .feature-card{
-      padding:16px;
-      background:#fff;
-    }
-
-    .feature-card h3{
-      margin:0 0 8px;
-    }
-
-    .feature-card a{
-      display:inline-block;
-      padding:8px 10px;
-      border-radius:8px;
-      background:#edf3ff;
-      border:1px solid var(--line);
-      margin-top:6px;
-    }
-
-    .empty{
-      padding:22px;
-      color:var(--muted);
-      background:rgba(255,255,255,.68);
-    }
-
-    footer{
-      border-top:1px solid var(--line);
-      text-align:center;
-      color:var(--muted);
-      padding:24px 0 34px;
-      margin-top:20px;
-    }
+    footer{border-top:1px solid var(--line);text-align:center;color:var(--muted);padding:24px 0 34px;margin-top:20px}
 
     @media (max-width:760px){
-      .hero, .grid { grid-template-columns:1fr; }
-      .hero{ padding-top:42px; }
-      .video-grid{ grid-template-columns:repeat(2,minmax(200px,1fr)); }
-      .feature-grid{ grid-template-columns:repeat(2,1fr); }
+      .hero,.grid{grid-template-columns:1fr}.hero{padding-top:42px}.video-grid{grid-template-columns:repeat(2,minmax(200px,1fr))}
     }
-
     @media (max-width:560px){
-      .wrap{ padding:0 15px; }
-      header{ flex-wrap:wrap; padding:12px 0; gap:14px; }
-      nav{ order:3; width:100%; justify-content:space-between; }
-      .video-grid, .feature-grid{ grid-template-columns:1fr; }
+      .wrap{padding:0 15px}
+      header{flex-wrap:wrap;padding:12px 0;gap:14px}
+      nav{order:3;width:100%;justify-content:space-between}
+      .video-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
-
 <body>
   <div class="wrap">
     <header>
       <div class="brand">Grational</div>
       <nav>
         <a href="#videos">Videos</a>
-        <a href="#featured">Featured</a>
         <a href="#upload">Upload</a>
         <a href="#account">Account</a>
         <a href="./rules.html">Rules</a>
@@ -342,7 +124,6 @@
         <p class="lead">Make your video, upload it through Grational, wait a minute, and then share it with everyone.</p>
         <a href="#upload" class="btn primary">Start Upload</a>
       </div>
-
       <aside class="steps">
         <h2>How to upload</h2>
         <p><b>01</b> Make your video</p>
@@ -366,33 +147,26 @@
 
           <form id="authForm">
             <div id="registerFields">
-              <label>
-                Display name
+              <label>Display name
                 <input id="displayName" autocomplete="name" />
               </label>
-
-              <label>
-                Username
+              <label>Username
                 <input id="username" autocomplete="username" />
               </label>
-
-              <label>
-                Bio
+              <label>Bio
                 <textarea id="bio" placeholder="Tell people about yourself"></textarea>
               </label>
             </div>
 
-            <label>
-              Email
+            <label>Email
               <input id="email" type="email" autocomplete="email" required />
             </label>
 
-            <label>
-              Password
+            <label>Password
               <input id="password" type="password" minlength="6" maxlength="44" autocomplete="new-password" required />
             </label>
 
-            <div class="small">Password must be 6–44 characters.</div>
+            <div class="small">No sensitive data is displayed publicly.</div>
             <button id="authSubmit" class="btn primary full" type="submit">Create account</button>
           </form>
 
@@ -411,8 +185,7 @@
         <p id="uploadHint" class="small">Sign in or register before uploading.</p>
 
         <form id="uploadForm">
-          <label>
-            Video title
+          <label>Video title
             <input id="videoTitle" placeholder="My video" disabled />
           </label>
 
@@ -436,35 +209,7 @@
           <h2>Latest videos</h2>
         </div>
       </div>
-
-      <input id="searchInput" class="search-box" type="text" placeholder="Search videos or creators..." />
-
       <div id="videoList" class="video-grid"></div>
-    </section>
-
-    <section id="featured" class="section">
-      <div class="heading">
-        <div>
-          <span class="eyebrow">SPONSORS</span>
-          <h2>Featured creators</h2>
-        </div>
-      </div>
-
-      <div id="featuredList" class="feature-grid"></div>
-    </section>
-
-    <section class="section">
-      <div class="card">
-        <h2>Social links</h2>
-        <div class="small" style="margin-bottom:12px;">Creators can add their Discord, GitHub, and other social links on their profile.</div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;">
-          <a href="https://discord.com" target="_blank" rel="noreferrer" style="padding:10px 12px;background:#f5f8ff;border:1px solid var(--line);border-radius:10px;font-weight:700;color:#27496d;">Discord</a>
-          <a href="https://github.com" target="_blank" rel="noreferrer" style="padding:10px 12px;background:#f5f8ff;border:1px solid var(--line);border-radius:10px;font-weight:700;color:#27496d;">GitHub</a>
-          <a href="https://x.com" target="_blank" rel="noreferrer" style="padding:10px 12px;background:#f5f8ff;border:1px solid var(--line);border-radius:10px;font-weight:700;color:#27496d;">X / Twitter</a>
-          <a href="https://www.youtube.com" target="_blank" rel="noreferrer" style="padding:10px 12px;background:#f5f8ff;border:1px solid var(--line);border-radius:10px;font-weight:700;color:#27496d;">YouTube</a>
-          <a href="https://www.tiktok.com" target="_blank" rel="noreferrer" style="padding:10px 12px;background:#f5f8ff;border:1px solid var(--line);border-radius:10px;font-weight:700;color:#27496d;">TikTok</a>
-        </div>
-      </div>
     </section>
 
     <footer>Grational · Share your videos with the world</footer>
@@ -522,91 +267,11 @@
       };
 
       const { error } = await supabase.from("profiles").upsert(payload, { onConflict: "id" });
-      if (error) console.error(error);
-      else currentUsername = payload.username;
-    }
-
-    async function loadFeaturedCreators() {
-      const list = $("featuredList");
-      list.innerHTML = "";
-
-      const { data, error } = await supabase
-        .from("featured_creators")
-        .select("id, creator_name, creator_username, creator_url, discord_url, github_url, x_url, tiktok_url")
-        .order("created_at", { ascending: false })
-        .limit(20);
-
-      if (error || !data || data.length === 0) {
-        list.innerHTML = `
-          <div class="feature-card">
-            <h3>Featured creator</h3>
-            <p>There is no featured creator yet. Check back next month.</p>
-          </div>
-        `;
-        return;
+      if (error) {
+        console.error(error);
+      } else {
+        currentUsername = payload.username;
       }
-
-      data.forEach((creator) => {
-        const card = document.createElement("article");
-        card.className = "feature-card";
-
-        const h3 = document.createElement("h3");
-        h3.textContent = creator.creator_name || creator.creator_username || "Featured creator";
-
-        const p = document.createElement("p");
-        p.textContent = "@" + (creator.creator_username || "creator");
-
-        const links = document.createElement("div");
-
-        const profileUrl = creator.creator_url || (creator.creator_username ? "./profile.html?u=" + encodeURIComponent(creator.creator_username) : "#");
-        const a = document.createElement("a");
-        a.href = profileUrl;
-        a.target = "_blank";
-        a.rel = "noreferrer";
-        a.textContent = "View profile";
-        links.appendChild(a);
-
-        if (creator.discord_url) {
-          const d = document.createElement("a");
-          d.href = creator.discord_url;
-          d.target = "_blank";
-          d.rel = "noreferrer";
-          d.textContent = "Discord";
-          links.appendChild(d);
-        }
-
-        if (creator.github_url) {
-          const g = document.createElement("a");
-          g.href = creator.github_url;
-          g.target = "_blank";
-          g.rel = "noreferrer";
-          g.textContent = "GitHub";
-          links.appendChild(g);
-        }
-
-        if (creator.x_url) {
-          const x = document.createElement("a");
-          x.href = creator.x_url;
-          x.target = "_blank";
-          x.rel = "noreferrer";
-          x.textContent = "X";
-          links.appendChild(x);
-        }
-
-        if (creator.tiktok_url) {
-          const t = document.createElement("a");
-          t.href = creator.tiktok_url;
-          t.target = "_blank";
-          t.rel = "noreferrer";
-          t.textContent = "TikTok";
-          links.appendChild(t);
-        }
-
-        card.appendChild(h3);
-        card.appendChild(p);
-        card.appendChild(links);
-        list.appendChild(card);
-      });
     }
 
     async function loadVideos() {
@@ -632,24 +297,7 @@
         return;
       }
 
-      const searchText = ($("searchInput").value || "").trim().toLowerCase();
-      const filtered = data.filter((video) => {
-        if (!searchText) return true;
-        return (
-          (video.title || "").toLowerCase().includes(searchText) ||
-          (video.uploader_name || "").toLowerCase().includes(searchText)
-        );
-      });
-
-      if (filtered.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.textContent = "No matching videos found.";
-        list.appendChild(empty);
-        return;
-      }
-
-      filtered.forEach((video) => {
+      for (const video of data) {
         const { data: publicData } = supabase.storage.from("videos").getPublicUrl(video.storage_path);
 
         const card = document.createElement("article");
@@ -667,16 +315,16 @@
         const h3 = document.createElement("h3");
         h3.textContent = video.title;
 
-        const uploader = document.createElement("small");
-        uploader.textContent = "Uploaded by " + (video.uploader_name || "Grational user");
+        const meta = document.createElement("small");
+        meta.textContent = "Uploaded by " + (video.uploader_name || "Grational user");
 
         info.appendChild(h3);
-        info.appendChild(uploader);
+        info.appendChild(meta);
 
         card.appendChild(elVideo);
         card.appendChild(info);
         list.appendChild(card);
-      });
+      }
     }
 
     function updateAuthUI() {
@@ -694,12 +342,12 @@
         const username = currentUsername || session.user.user_metadata?.username || session.user.email.split("@")[0];
         $("signedInText").textContent = "Signed in as " + username;
         $("profileLink").href = buildProfileUrl(username);
+        $("profileLink").hidden = false;
       }
     }
 
     $("registerTab").addEventListener("click", () => setMode("register"));
     $("loginTab").addEventListener("click", () => setMode("login"));
-    $("searchInput").addEventListener("input", loadVideos);
 
     $("authForm").addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -710,8 +358,11 @@
       try {
         if (authMode === "register") {
           if (password.length < 6 || password.length > 44) throw new Error("Password must be 6–44 characters.");
+
           const cleanedUsername = $("username").value.trim();
-          if (!cleanedUsername) throw new Error("Username is required.");
+          if (!cleanedUsername) {
+            throw new Error("Username is required.");
+          }
 
           const { data, error } = await supabase.auth.signUp({
             email,
@@ -748,8 +399,11 @@
             .eq("id", session.user.id)
             .single();
 
-          if (!profileError && profileData) currentUsername = profileData.username;
-          else currentUsername = session.user.user_metadata?.username || session.user.email.split("@")[0];
+          if (!profileError && profileData) {
+            currentUsername = profileData.username;
+          } else {
+            currentUsername = session.user.user_metadata?.username || session.user.email.split("@")[0];
+          }
 
           updateAuthUI();
           showMessage("Signed in successfully.", "success");
@@ -765,7 +419,9 @@
         options: { redirectTo: window.location.origin + window.location.pathname }
       });
 
-      if (error) showMessage(error.message, "error");
+      if (error) {
+        showMessage(error.message, "error");
+      }
     });
 
     $("signOut").addEventListener("click", async () => {
@@ -783,7 +439,6 @@
 
     $("videoFile").addEventListener("change", () => {
       const file = $("videoFile").files[0];
-
       if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
 
       $("preview").style.display = "none";
@@ -874,18 +529,25 @@
           .eq("id", session.user.id)
           .single();
 
-        if (profileData) currentUsername = profileData.username;
-        else currentUsername = session.user.user_metadata?.username || session.user.email.split("@")[0];
+        if (profileData) {
+          currentUsername = profileData.username;
+        } else {
+          currentUsername = session.user.user_metadata?.username || session.user.email.split("@")[0];
+        }
       }
 
       updateAuthUI();
       await loadVideos();
-      await loadFeaturedCreators();
 
       supabase.auth.onAuthStateChange((_event, newSession) => {
         session = newSession;
-        if (session) currentUsername = session.user.user_metadata?.username || session.user.email.split("@")[0];
-        else currentUsername = "";
+
+        if (session) {
+          const username = session.user.user_metadata?.username || session.user.email.split("@")[0];
+          currentUsername = username;
+        } else {
+          currentUsername = "";
+        }
 
         updateAuthUI();
       });
